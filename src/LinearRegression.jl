@@ -15,25 +15,25 @@ function add_column(x::Matrix{Float64})
 end
 """
 
-function beta_hat(X::Matrix{Float64}, y::Vector{Float64})
+function beta_hat(X::Matrix{T}, y::Vector{T}) where T 
     # Book implementation for estimation of parameters using the mathod of ordinary least squares method
     return ((X'*X)^-1)*(X'y)
 end
 
 
-function residuals(X::Matrix{Float64}, y::Vector{Float64}, beta_hat::Vector{Float64})
+function residuals(X::Matrix{T}, y::Vector{T}, beta_hat::Vector{Float64}) where T 
     # Book implementation for calculating residuals (y = Xβ + ϵ)
     return y-(X*beta_hat)
 end
 
 
-function SSe(X::Matrix{Float64}, y::Vector{Float64}, beta_hat::Vector{Float64})
+function SSe(X::Matrix{T}, y::Vector{T}, beta_hat::Vector{Float64}) where T 
     # Sum of squares of errors (or residuals) formula
     return y'*y - beta_hat'*X'*y
 end
 
 
-function R2(X::Matrix{Float64}, y::Vector{Float64}, beta_hat::Vector{Float64})
+function R2(X::Matrix{T}, y::Vector{T}, beta_hat::Vector{Float64}) where T 
     # calculates the R² (coefficient of determination) of a estimation based on the book implementation
     SSE = SSe(X, y, beta_hat)
     Syy = y'*y - ((sum(y))^2)/(length(y))
@@ -41,10 +41,10 @@ function R2(X::Matrix{Float64}, y::Vector{Float64}, beta_hat::Vector{Float64})
 end
 
 
-function MSE(X::Matrix{Float64}, y::Vector{Float64}, beta_hat::Vector{Float64}) #σ²
+function MSE(X::Matrix{T}, y::Vector{T}, beta_hat::Vector{Float64}) where T  #σ²
     # calculates the MSE (mean square error) of a estimation based on the book implementation
     SSE = SSe(X, y, beta_hat)
-    p = length(beta_hat) - 1
+    p = length(beta_hat)
     return SSE/(length(y) - p)
 end
 
@@ -62,7 +62,14 @@ function calulate_p_value(X, beta_hat, MSE)
 end
 """
 
-function linreg(X::Matrix{Float64}, y::Vector{Float64})
+struct Results
+    βhat::Vector
+    r²::Float64
+    mse::Float64
+end
+
+
+function linreg(X::Matrix{T}, y::Vector{T}) where T 
     #X = add_column(X)
     # finding beta_hat
     betahat = beta_hat(X, y)
@@ -74,10 +81,21 @@ function linreg(X::Matrix{Float64}, y::Vector{Float64})
     MSe = MSE(X, y, betahat)
     # calculating p-value
     #p_value = calulate_p_value(X, beta_hat, MSE)
-    results = Dict("beta_hat" => betahat, "R²" => R², "MSE (σ²)" => MSe) #, "p-value" => p_value )
-    return results
+    return Results(betahat, R², MSe)
 end
 
+
+X = [1 100;
+1 110;
+1 120;
+1 130;
+1 140;
+1 150;
+1 160;
+1 170;
+1 180;
+1 190]
+y = [45, 51, 54, 61, 66, 70, 74, 78, 85, 89]
 
 X = rand(100, 3)
 y = rand(100)
