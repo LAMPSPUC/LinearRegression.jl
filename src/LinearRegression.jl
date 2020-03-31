@@ -1,5 +1,10 @@
 module LinearRegression
 
-greet() = print("Hello World!")
+using LinearAlgebra
+
+export linreg
+
+include("estimation.jl")
+include("hypothesistests.jl")
 
 end # module
