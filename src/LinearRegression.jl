@@ -1,5 +1,13 @@
 module LinearRegression
 
+using LinearAlgebra
+
+export linreg
+
+include("estimation.jl")
+include("hypothesistests.jl")
+
+# HEAD
 # Function that estimates the coefficients for a multiple linear regression model.
 # It receives the data, y as a vector and X as a matrix.
 
@@ -109,5 +117,6 @@ calulate_p_value(Xn, beta_hat, MSE)
 """
 
 linreg(X, y)
+#
 
 end # module
