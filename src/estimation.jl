@@ -11,6 +11,10 @@ function eval_dof_reg(beta_hat::Vector{T}) where T
     return length(beta_hat) - 1
 end
 
+function eval_num_obs(y::Vector{T}) where T
+    return length(y)
+end
+
 function eval_dof_total(y::Vector{T}) where T
     return length(y) - 1
 end
@@ -47,9 +51,8 @@ function eval_mst(sst::T, dof_total::Int) where T
     return  sst/dof_total
 end
 
-function eval_loglik(mse::T, dof_total::Int, y::Vector{T}, X::Matrix{T}, beta_hat::Vector{T}) where T
-    n = dof_total + 1
-    loglik = -n/2 * (log(2*pi) + log(mse)) - ((y - X*beta_hat)'*(y - X*beta_hat))/(2*mse) #checar
+function eval_loglik(mse::T, num_obs::Int, y::Vector{T}, X::Matrix{T}, beta_hat::Vector{T}) where T
+    loglik = -num_obs/2 * (log(2*pi) + log(mse)) - ((y - X*beta_hat)'*(y - X*beta_hat))/(2*mse) #checar
     return
 end
 
@@ -57,9 +60,8 @@ function eval_aic(dof_reg::Int, loglik::T) where T
     return 2 * dof_reg - 2 * loglik
 end
 
-function eval_bic(dof_total::Int, dof_reg::Int, loglik::T) where T
-    n = dof_total + 1
-    return log(n) * dof_reg - 2 * loglik
+function eval_bic(num_obs::Int, dof_reg::Int, loglik::T) where T
+    return log(num_obs) * dof_reg - 2 * loglik
 end
 
 function eval_r2(ssr::T, sst::T) where T
