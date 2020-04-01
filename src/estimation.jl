@@ -51,9 +51,8 @@ function eval_mst(sst::T, dof_total::Int) where T
     return  sst/dof_total
 end
 
-function eval_loglik(mse::T, num_obs::Int, y::Vector{T}, X::Matrix{T}, beta_hat::Vector{T}) where T
-    loglik = -num_obs/2 * (log(2*pi) + log(mse)) - ((y - X*beta_hat)'*(y - X*beta_hat))/(2*mse) #checar
-    return
+function eval_loglik(mse::T, num_obs::Int, resid::Vector{T}) where T
+    return -num_obs/2 * (log(2*pi) + log(mse)) - ((resid)'*(resid))/(2*mse)
 end
 
 function eval_aic(dof_reg::Int, loglik::T) where T
@@ -74,10 +73,27 @@ end
 
 function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
     
-    # Completar essa função a medida que formos avançando
+    beta_hat = fit(y, X)
+    resid = resid(y, X, beta_hat)
+    num_obs = eval_num_obs(y)
+    dof_reg = eval_dof_reg(beta_hat)
+    dof_total = eval_dof_total(y)
+    dof_resid = eval_dof_resid(dof_total, dof_reg)
+    rmse = eval_rmse(resid)
+    sse = eval_sse(y, X, beta_hat)
+    ssr = eval_ssr(y, X, beta_hat)
+    sst = eval_sst(sse, ssr)
+    mse = eval_mse(sse, dof_total, dof_reg)
+    msr = eval_msr(ssr, dof_reg)
+    mst = eval_mst(sst, dof_total)
+    llk = eval_loglik(mse, num_obs, resid)
+    aic = eval_aic(dof_reg, llk)
+    bic = eval_bic(num_obs, dof_reg, llk)
+    r2 = eval_r2(ssr, sst)
+    r2_adj = eval_r2_adj(sse, sst, dof_total, dof_reg)
 
     return Model(y, X, beta_hat, num_obs, dof_reg, dof_resid, 
-                dof_total, rmse, llk, aic, bic, r2, r2_adj, residuals,
+                dof_total, rmse, llk, aic, bic, r2, r2_adj, resid,
                 mse, msr, mst, sse, ssr, sst, t_value, t_test_p_value, 
                 f_value, f_test_p_value)
 end
