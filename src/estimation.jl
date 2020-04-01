@@ -1,10 +1,10 @@
 # Resultados da estimação
 function fit(y::Vector{T}, X::Matrix{T}) where T
-    return # Calcula o beta_hat
+    return ((X'*X)^-1)*(X'*y) # Calcula o beta_hat
 end
 
 function resid(y::Vector{T}, X::Matrix{T}, beta_hat::Vector{T}) where T
-    return # Calcula os residuos
+    return y-(X*beta_hat) # Calcula os residuos
 end
 
 function eval_dof_reg(beta_hat::Vector{T}) where T
@@ -20,19 +20,19 @@ function eval_dof_resid(dof_total::Int, dof_reg::Int)
 end
 
 function eval_rmse(resid::Vector{T}) where T
-    return # Calcula o root mean square error
+    return sqrt(sum(resid.^2)/length(resid)) # Calcula o root mean square error
 end
 
-function eval_sse()
-    return
+function eval_sse(y::Vector{T}, X::Matrix{T}, beta_hat::Vector{T}) where T
+    return y'*y - beta_hat'*X'*y # Calcula o error or residual sum of squares
 end
 
-function eval_ssr()
-    return
+function eval_ssr(y::Vector{T}, X::Matrix{T}, beta_hat::Vector{T}) where T
+    return beta_hat'*X'*y - ((sum(y)^2)/length(y)) # Calcula o regression sum of squares
 end
 
 function eval_sst(sse::T, ssr::T) where T
-    return
+    return sse + ssr # Calcula o total sum of squares
 end
 
 function eval_mse()
