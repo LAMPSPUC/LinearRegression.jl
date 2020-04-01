@@ -35,36 +35,54 @@ function eval_sst(sse::T, ssr::T) where T
     return
 end
 
-function eval_mse()
+function eval_mse(sse::T, dof_total::Int, dof_reg::Int) where T
+    p = dof_reg + 1
+    n = dof_total + 1
+    mse = sse/(n-p)
+    return mse
+end
+
+function eval_msr(ssr::T, dof_reg::Int) where T
+    k = dof_reg
+    msr = ssr/k
+    return  msr
+end
+
+function eval_mst(sst::T, dof_total::Int) where T
+    n = dof_total + 1
+    mst = sst/(n-1)     #checar
+    return  mst
+end
+
+function eval_loglik(mse::T, dof_total::Int, y::Vector{T}, X::Matrix{T}, beta_hat::Vector{T}) where T
+    n = dof_total + 1
+    loglik = -n/2 * (log(2*pi) + log(mse)) - ((y - X*beta_hat)'*(y - X*beta_hat))/(2*mse) #checar
     return
 end
 
-function eval_msr()
+function eval_aic(dof_reg::Int, loglik::T) where T
+    k = dof_reg
+    aic = 2*k - 2*loglik
     return
 end
 
-function eval_mst() where T
-    return     
-end
-
-function eval_loglik()
+function eval_bic(dof_total::Int, dof_reg::Int, loglik::T)
+    n = dof_total + 1
+    k = dof_reg
+    bic = log(n)*k - 2*loglik
     return
 end
 
-function eval_aic()
-    return
+function eval_r2(ssr::T, sst::T) where T
+    r2 = ssr/sst
+    return r2
 end
 
-function eval_bic()
-    return
-end
-
-function eval_r2()
-    return
-end
-
-function eval_r2_adj()
-    return
+function eval_r2_adj(sse::T, sst::T, dof_total::Int, dof_reg::Int) where T
+    n = dof_total + 1
+    p = dof_reg + 1
+    r2_adj = 1 - (sse/(n-p))/(sst/n-1)
+    return r2_adj
 end
 
 function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
