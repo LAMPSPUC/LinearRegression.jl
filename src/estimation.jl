@@ -4,7 +4,7 @@ function fit(y::Vector{T}, X::Matrix{T}) where T
 end
 
 function resid(y::Vector{T}, X::Matrix{T}, beta_hat::Vector{T}) where T
-    return round(y-(X*beta_hat), digits = 2) # Calcula os residuos
+    return y-(X*beta_hat) # Calcula os residuos
 end
 
 function eval_dof_reg(beta_hat::Vector{T}) where T
