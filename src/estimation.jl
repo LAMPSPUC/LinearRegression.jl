@@ -1,6 +1,4 @@
 # Resultados da estimação
-push!(LOAD_PATH, "/Users/pedro/github/LinearRegression.jl/src")
-using LinearRegression
 
 function fit(y::Vector{T}, X::Matrix{T}) where T
     return ((X'*X)^-1)*(X'*y) # Calcula o beta_hat

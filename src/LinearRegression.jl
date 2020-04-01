@@ -1,10 +1,11 @@
 module LinearRegression
 
+using Distributions
 using LinearAlgebra
 
 export linreg
 
 include("estimation.jl")
-include("hypothesistests.jl")
+include("hypothesis_tests.jl")
 
 end # module
