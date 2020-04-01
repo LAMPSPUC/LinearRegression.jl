@@ -11,6 +11,10 @@ function eval_dof_reg(beta_hat::Vector{T}) where T
     return length(beta_hat) - 1
 end
 
+function eval_num_obs(y::Vector{T}) where T
+    return length(y)
+end
+
 function eval_dof_total(y::Vector{T}) where T
     return length(y) - 1
 end
@@ -35,36 +39,37 @@ function eval_sst(sse::T, ssr::T) where T
     return sse + ssr # Calcula o total sum of squares
 end
 
-function eval_mse()
+function eval_mse(sse::T, dof_total::Int, dof_reg::Int) where T
+    return sse/(dof_reg - dof_total)
+end
+
+function eval_msr(ssr::T, dof_reg::Int) where T
+    return  ssr/dof_reg
+end
+
+function eval_mst(sst::T, dof_total::Int) where T
+    return  sst/dof_total
+end
+
+function eval_loglik(mse::T, num_obs::Int, y::Vector{T}, X::Matrix{T}, beta_hat::Vector{T}) where T
+    loglik = -num_obs/2 * (log(2*pi) + log(mse)) - ((y - X*beta_hat)'*(y - X*beta_hat))/(2*mse) #checar
     return
 end
 
-function eval_msr()
-    return
+function eval_aic(dof_reg::Int, loglik::T) where T
+    return 2 * dof_reg - 2 * loglik
 end
 
-function eval_mst() where T
-    return     
+function eval_bic(num_obs::Int, dof_reg::Int, loglik::T) where T
+    return log(num_obs) * dof_reg - 2 * loglik
 end
 
-function eval_loglik()
-    return
+function eval_r2(ssr::T, sst::T) where T
+    return ssr/sst
 end
 
-function eval_aic()
-    return
-end
-
-function eval_bic()
-    return
-end
-
-function eval_r2()
-    return
-end
-
-function eval_r2_adj()
-    return
+function eval_r2_adj(sse::T, sst::T, dof_total::Int, dof_reg::Int) where T
+    return 1 - (sse/(dof_total-dof_reg))/(sst/dof_total)
 end
 
 function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
