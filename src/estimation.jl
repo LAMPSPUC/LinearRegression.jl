@@ -1,4 +1,7 @@
 # Resultados da estimação
+push!(LOAD_PATH, "/Users/pedro/github/LinearRegression.jl/src")
+using LinearRegression
+
 function fit(y::Vector{T}, X::Matrix{T}) where T
     return ((X'*X)^-1)*(X'*y) # Calcula o beta_hat
 end
@@ -91,10 +94,10 @@ function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
     bic = eval_bic(num_obs, dof_reg, llk)
     r2 = eval_r2(ssr, sst)
     r2_adj = eval_r2_adj(sse, sst, dof_total, dof_reg)
-    t_value = eval_t_value(X, beta_hat, mse, dof_reg, num_obs)
-    t_test_p_value = eval_t_test_p_value(dof_reg, t_value)
-    f_value = eval_f_value(msr, mse)
-    f_test_p_value = eval_f_test_p_value(f_value, dof_reg, num_obs)
+    t_value = LinearRegression.eval_t_value(X, beta_hat, mse, dof_reg, num_obs)
+    t_test_p_value = LinearRegression.eval_t_test_p_value(dof_reg, t_value)
+    f_value = LinearRegression.eval_f_value(msr, mse)
+    f_test_p_value = LinearRegression.eval_f_test_p_value(f_value, dof_reg, num_obs)
 
     return Model(y, X, beta_hat, num_obs, dof_reg, dof_resid, 
                 dof_total, rmse, llk, aic, bic, r2, r2_adj, resid,
