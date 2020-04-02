@@ -41,7 +41,7 @@ function eval_sst(sse::T, ssr::T) where T
 end
 
 function eval_mse(sse::T, dof_total::Int, dof_reg::Int) where T
-    return sse/(dof_reg - dof_total)
+    return sse/(dof_total - dof_reg)
 end
 
 function eval_msr(ssr::T, dof_reg::Int) where T
