@@ -102,6 +102,3 @@ function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
                 mse, msr, mst, sse, ssr, sst, t_value, t_test_p_value, 
                 f_value, f_test_p_value)
 end
-
-
-
