@@ -66,7 +66,7 @@
 
     @test LinearRegression.eval_r2(ssr, sst) ≈ 0.981137 atol = 1e-1
 
-    #@test LinearRegression.eval_r2_adj(sse, sst, dof_total, dof_reg) ≈ 0.981137 atol = 1e-1
+    @test LinearRegression.eval_r2_adj(sse, sst, dof_total, dof_reg) ≈ 0.981137 atol = 1e-1
 
 end
 
