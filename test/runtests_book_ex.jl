@@ -33,10 +33,14 @@
     beta_hat = LinearRegression.fit(y, X)
     @test beta_hat ≈ [2.26379143; 2.74426964; 0.01252781] atol = 1e-1
 
+    # Test failed for residuals
     residuals = LinearRegression.resid(y, X, beta_hat)
     @test residuals ≈ [1.57, -1.15, -2.20, -1.60, -2.89, 1.11, 1.93, 1.20,
     -3.86, -0.48, -1.32, -0.46, 0.49, -0.60, 5.84, -0.36, 44.33, -2.04,
     -1.54, 0.03, -2.18, 1.56, 0.32, 2.15, 0.15] atol = 1e-2
+
+    num_obs = LinearRegression.eval_num_obs(y)
+    @test num_obs == 25
 
     dof_reg = LinearRegression.eval_dof_reg(beta_hat)
     @test dof_reg == 2
@@ -47,7 +51,8 @@
     dof_resid = LinearRegression.eval_dof_resid(dof_total, dof_reg)
     @test dof_resid == 22
     
-    @test LinearRegression.eval_rmse(residuals) ≈ 2.288055943 atol = 1e0
+    rmse = LinearRegression.eval_rmse(residuals)
+    @test rmse ≈ 2.288055943 atol = 1e0
     
     sse = LinearRegression.eval_sse(y, X, beta_hat)
     @test sse ≈ 115.1735 atol = 1e0
@@ -58,15 +63,32 @@
     sst = LinearRegression.eval_sst(sse, ssr)
     @test sst ≈ 6105.9447 atol = 1e0
 
-    @test LinearRegression.eval_mse(sse, dof_total, dof_reg) ≈ 5.2352 atol = 1e-1
+    mse = LinearRegression.eval_mse(sse, dof_total, dof_reg)
+    @test mse ≈ 5.2352 atol = 1e-2
 
-    @test LinearRegression.eval_msr(ssr, dof_reg) ≈ 2995.3856 atol = 1e-1
+    msr = LinearRegression.eval_msr(ssr, dof_reg)
+    @test msr ≈ 2995.3856 atol = 1e-1
 
-    @test LinearRegression.eval_mst(sst, dof_total) ≈ 254.41436 atol = 1e-1
+    mst = LinearRegression.eval_mst(sst, dof_total)
+    @test mst ≈ 254.41436 atol = 1e-2
 
-    @test LinearRegression.eval_r2(ssr, sst) ≈ 0.981137 atol = 1e-1
+    r2 = LinearRegression.eval_r2(ssr, sst)
+    @test r2 ≈ 0.981137 atol = 1e-2
 
-    @test LinearRegression.eval_r2_adj(sse, sst, dof_total, dof_reg) ≈ 0.981137 atol = 1e-1
+    r2_adj = LinearRegression.eval_r2_adj(sse, sst, dof_total, dof_reg)
+    @test r2_adj ≈ 0.979423 atol = 1e-2
+
+    #LinearRegression.eval_t_value(X, beta_hat, mse, dof_reg, num_obs)
+    #@test t_value ≈ 
+
+    #t_test_p_value = LinearRegression.eval_t_test_p_value(num_obs, dof_reg, t_value )
+    #@test t_test_p_value = 
+
+    f_value = LinearRegression.eval_f_value(msr, mse)
+    @test f_value ≈ 572.17 atol = 1e0
+
+    #f_test_p_value = LinearRegression.eval_f_test_p_value(f_value, dof_reg, num_obs)
+    #@test f_test_p_value = 
 
 end
 
