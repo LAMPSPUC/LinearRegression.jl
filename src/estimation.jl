@@ -53,15 +53,15 @@ function eval_mst(sst::T, dof_total::Int) where T
 end
 
 function eval_loglik(mse::T, num_obs::Int, resid::Vector{T}) where T
-    return -num_obs/2 * (log(2*pi) + log(mse)) - ((resid)'*(resid))/(2*mse)
+    return -num_obs/2 * log(2*pi) - num_obs/2 * log(mse) - ((resid)'*(resid))/(2*mse)
 end
 
 function eval_aic(dof_reg::Int, loglik::T) where T
-    return 2 * dof_reg - 2 * loglik
+    return 2 * (dof_reg + 1) - 2 * loglik
 end
 
 function eval_bic(num_obs::Int, dof_reg::Int, loglik::T) where T
-    return log(num_obs) * dof_reg - 2 * loglik
+    return log(num_obs) * (dof_reg + 1) - 2 * loglik
 end
 
 function eval_r2(ssr::T, sst::T) where T
