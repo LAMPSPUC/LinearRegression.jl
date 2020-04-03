@@ -41,7 +41,7 @@ function eval_sst(sse::T, ssr::T) where T
 end
 
 function eval_mse(sse::T, dof_total::Int, dof_reg::Int) where T
-    return sse/(dof_reg - dof_total)
+    return sse/(dof_total - dof_reg)
 end
 
 function eval_msr(ssr::T, dof_reg::Int) where T
@@ -102,6 +102,3 @@ function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
                 mse, msr, mst, sse, ssr, sst, t_value, t_test_p_value, 
                 f_value, f_test_p_value)
 end
-
-
-
