@@ -24,5 +24,5 @@ function eval_f_value(msr::T, mse::T) where T
 end
 
 function eval_f_test_p_value(f_value::T, dof_reg::Int, num_obs::Int) where T
-    return cdf(FDist(dof_reg, num_obs-dof_reg-1), f_value)
+    return 1 - cdf(FDist(dof_reg, num_obs-dof_reg-1), f_value)
 end
