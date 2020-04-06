@@ -1,1 +1,0 @@
-# Resultados do teste de hipótese
