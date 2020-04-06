@@ -1,8 +1,8 @@
 mutable struct Model{T <: Real}
     y::Vector{T}
     X::Matrix{T}
-    num_obs::Int
     beta_hat::Vector{T}
+    num_obs::Int
     dof_reg::Int
     dof_resid::Int
     dof_total::Int
@@ -25,7 +25,8 @@ mutable struct Model{T <: Real}
     f_test_p_value::T
 end
 
-X = rand(100, 4)
-y = rand(100)
+# Do we need these lines for something??
+#X = rand(100, 4)
+#y = rand(100)
 
-lm(X, y)
+#lm(X, y)

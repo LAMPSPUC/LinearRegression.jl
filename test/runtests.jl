@@ -1,4 +1,3 @@
-push!(LOAD_PATH, "/Users/pedro/github/LinearRegression.jl/src")
 using LinearRegression
 using Test
 

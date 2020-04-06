@@ -2,7 +2,7 @@
 
 function eval_t_value(X::Matrix{T}, beta_hat::Vector{T}, mse::T, dof_reg::Int, num_obs::Int) where T
     C = (X'*X)^-1
-    t_value = []
+    t_value = Vector{T}(undef, 0)
     for j in 1:(dof_reg+1)
         to = beta_hat[j]/sqrt(mse*C[j,j])
         push!(t_value, to)
@@ -11,7 +11,7 @@ function eval_t_value(X::Matrix{T}, beta_hat::Vector{T}, mse::T, dof_reg::Int, n
 end
 
 function eval_t_test_p_value(num_obs::Int, dof_reg::Int, t_value::Vector{T}) where T
-    t_test_p_value = []
+    t_test_p_value = Vector{T}(undef, 0)
     for j in 1:(dof_reg+1)
         p_value = (1 - cdf(TDist(num_obs-dof_reg-1), t_value[j])) * 2
         push!(t_test_p_value, p_value)

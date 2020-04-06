@@ -75,30 +75,30 @@ end
 function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
     
     beta_hat = fit(y, X)
-    resid = resid(y, X, beta_hat)
+    residuals = resid(y, X, beta_hat)
     num_obs = eval_num_obs(y)
     dof_reg = eval_dof_reg(beta_hat)
     dof_total = eval_dof_total(y)
     dof_resid = eval_dof_resid(dof_total, dof_reg)
-    rmse = eval_rmse(resid)
+    rmse = eval_rmse(residuals)
     sse = eval_sse(y, X, beta_hat)
     ssr = eval_ssr(y, X, beta_hat)
     sst = eval_sst(sse, ssr)
     mse = eval_mse(sse, dof_total, dof_reg)
     msr = eval_msr(ssr, dof_reg)
     mst = eval_mst(sst, dof_total)
-    llk = eval_loglik(mse, num_obs, resid)
+    llk = eval_loglik(mse, num_obs, residuals)
     aic = eval_aic(dof_reg, llk)
     bic = eval_bic(num_obs, dof_reg, llk)
     r2 = eval_r2(ssr, sst)
     r2_adj = eval_r2_adj(sse, sst, dof_total, dof_reg)
-    t_value = LinearRegression.eval_t_value(X, beta_hat, mse, dof_reg, num_obs)
-    t_test_p_value = LinearRegression.eval_t_test_p_value(dof_reg, t_value)
-    f_value = LinearRegression.eval_f_value(msr, mse)
-    f_test_p_value = LinearRegression.eval_f_test_p_value(f_value, dof_reg, num_obs)
+    t_value = eval_t_value(X, beta_hat, mse, dof_reg, num_obs)
+    t_test_p_value = eval_t_test_p_value(num_obs, dof_reg, t_value)
+    f_value = eval_f_value(msr, mse)
+    f_test_p_value = eval_f_test_p_value(f_value, dof_reg, num_obs)
 
     return Model(y, X, beta_hat, num_obs, dof_reg, dof_resid, 
-                dof_total, rmse, llk, aic, bic, r2, r2_adj, resid,
+                dof_total, rmse, llk, aic, bic, r2, r2_adj, residuals,
                 mse, msr, mst, sse, ssr, sst, t_value, t_test_p_value, 
                 f_value, f_test_p_value)
 end
