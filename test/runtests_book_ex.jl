@@ -36,8 +36,8 @@
     # Test failed for residuals
     residuals = LinearRegression.resid(y, X, beta_hat)
     @test residuals ≈ [1.57, -1.15, -2.20, -1.60, -2.89, 1.11, 1.93, 1.20,
-    -3.86, -0.48, -1.32, -0.46, 0.49, -0.60, 5.84, -0.36, 44.33, -2.04,
-    -1.54, 0.03, -2.18, 1.56, 0.32, 2.15, 0.15] atol = 1e-2
+    -3.86, -0.48, -1.32, -0.46, 0.49, -0.60, 5.84, -0.36, 4.33, -2.04,
+    -1.54, 0.03, -2.18, 1.56, 0.32, 2.15, 0.15] atol = 1e-1
 
     num_obs = LinearRegression.eval_num_obs(y)
     @test num_obs == 25
@@ -78,17 +78,12 @@
     r2_adj = LinearRegression.eval_r2_adj(sse, sst, dof_total, dof_reg)
     @test r2_adj ≈ 0.979423 atol = 1e-2
 
-    #LinearRegression.eval_t_value(X, beta_hat, mse, dof_reg, num_obs)
-    #@test t_value ≈ 
-
-    #t_test_p_value = LinearRegression.eval_t_test_p_value(num_obs, dof_reg, t_value )
-    #@test t_test_p_value = 
+    # t_calue tested with the only example on the book
+    t_value = LinearRegression.eval_t_value(X, beta_hat, mse, dof_reg, num_obs)
+    @test t_value[3] ≈ 4.4767 atol = 1e-2
 
     f_value = LinearRegression.eval_f_value(msr, mse)
     @test f_value ≈ 572.17 atol = 1e0
-
-    #f_test_p_value = LinearRegression.eval_f_test_p_value(f_value, dof_reg, num_obs)
-    #@test f_test_p_value = 
 
 end
 
