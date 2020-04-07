@@ -5,6 +5,8 @@ function Base.show(io::IO, regression::Model)
     println("Number of regressor variables: ", Int(regression.dof_reg))
     println("R2:                            ", @sprintf("%.4f", regression.r2))
     println("R2 Adjusted:                   ", @sprintf("%.4f", regression.r2_adj))
+    println("Standard Deviation:            ", @sprintf("%.4f", regression.mse))
+    println("Standard Error:                ", @sprintf("%.4f", regression.mse/sqrt(regression.num_obs)))
     println("F stat:                        ", @sprintf("%.4f", regression.f_value))
     println("F test p-value :               ", @sprintf("%.4f", regression.f_test_p_value))
     #=
