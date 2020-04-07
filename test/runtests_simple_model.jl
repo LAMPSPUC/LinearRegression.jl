@@ -72,4 +72,7 @@
     @test f_value ≈ 1.7449525774 atol = 1e-5
     f_test_p_value = LinearRegression.eval_f_test_p_value(f_value, dof_reg, num_obs)
     @test f_test_p_value ≈ 0.314285509 atol = 1e-5
+
+    model = linreg(y, X)
+    @test model.f_test_p_value ≈ 0.314285509 atol = 1e-5
 end
