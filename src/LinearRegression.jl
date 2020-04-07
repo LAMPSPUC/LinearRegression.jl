@@ -2,6 +2,7 @@ module LinearRegression
 
 using Distributions
 using LinearAlgebra
+using Printf
 
 export linreg
 

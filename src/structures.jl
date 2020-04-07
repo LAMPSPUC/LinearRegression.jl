@@ -24,9 +24,3 @@ mutable struct Model{T <: Real}
     f_value::T
     f_test_p_value::T
 end
-
-# Do we need these lines for something??
-#X = rand(100, 4)
-#y = rand(100)
-
-#lm(X, y)

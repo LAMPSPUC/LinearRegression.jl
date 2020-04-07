@@ -1,5 +1,3 @@
-using Printf
-
 function Base.show(io::IO, regression::Model)
     println("--------------------------------------------------------")
     println("Linear Regression:")
@@ -14,11 +12,11 @@ function Base.show(io::IO, regression::Model)
     println("AIC:                           ", @sprintf("%.4f", regression.aic))
     println("BIC:                           ", @sprintf("%.4f", regression.bic))
     =#
-    printTable(regression)
+    print_table(regression)
     return nothing
 end
 
-function printTable(regression::Model)
+function print_table(regression::Model)
     println("--------------------------------------------------------")
     println("Parameter    Estimate    t stat    p-value")
     num_param = regression.dof_reg + 1
@@ -27,11 +25,11 @@ function printTable(regression::Model)
         if i!=1
             parameter = "X"*string(i-1)
         end
-        printTableRow(parameter, regression.beta_hat[i], regression.t_value[i], regression.t_test_p_value[i])
+        print_table_row(parameter, regression.beta_hat[i], regression.t_value[i], regression.t_test_p_value[i])
     end
 end
 
-function printTableRow(parameter::String, estimate::T, tstat::T, pvalue::T) where T
+function print_table_row(parameter::String, estimate::T, tstat::T, pvalue::T) where T
     estimate = @sprintf("%.4f", estimate)
     tstat = @sprintf("%.4f", tstat)
     pvalue = @sprintf("%.4f", pvalue)
