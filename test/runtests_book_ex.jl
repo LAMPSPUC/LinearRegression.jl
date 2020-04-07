@@ -33,7 +33,6 @@
     beta_hat = LinearRegression.fit(y, X)
     @test beta_hat ≈ [2.26379143; 2.74426964; 0.01252781] atol = 1e-1
 
-    
     # Test failed for residuals
     residuals = LinearRegression.resid(y, X, beta_hat)
     #=
