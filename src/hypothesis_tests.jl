@@ -26,3 +26,13 @@ end
 function eval_f_test_p_value(f_value::T, dof_reg::Int, num_obs::Int) where T
     return 1 - cdf(FDist(dof_reg, num_obs-dof_reg-1), f_value)
 end
+
+function eval_se_beta(X::Matrix, mse::T, dof_reg::Int) where T
+    C = (X'*X)^-1
+    se_beta = Vector{T}(undef, 0)
+    for j in 1:(dof_reg+1)
+        se = sqrt(mse*C[j,j])
+        push!(se_beta, se)
+    end
+    return se_beta    
+end
