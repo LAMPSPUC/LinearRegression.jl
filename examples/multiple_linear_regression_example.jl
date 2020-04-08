@@ -3,7 +3,8 @@ using CSV
 
 # Let X be a matrix and y a vector as in the following example
 
-data = CSV.read("example.csv"; delim=';', decimal=',')
+PATH = pwd()
+data = CSV.read(joinpath(PATH, "LinearRegression.jl/examples/example.csv"); delim=';', decimal=',')
 
 r, c = size(data)
 x = data[:, 2:c]
