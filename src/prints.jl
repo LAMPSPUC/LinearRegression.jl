@@ -21,6 +21,7 @@ end
 function print_table(regression::Model)
     println("--------------------------------------------------------")
     println("Parameter    Estimate    Standard Error    t stat    p-value")
+
     num_param = regression.dof_reg + 1
     parameter = "Intercept"
     for i in 1:num_param

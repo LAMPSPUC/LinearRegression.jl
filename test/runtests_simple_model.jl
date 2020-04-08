@@ -47,6 +47,9 @@
     msr = LinearRegression.eval_msr(ssr, dof_reg)
     @test msr ≈ 8.62540782 atol = 1e-5
 
+    std_error = LinearRegression.eval_std_error(mse, X, num_obs, dof_reg)
+    @test std_error ≈ [2.33282292030972; 0.947678067888504; 9.14178932667554] atol = 1e-5
+
     # Tests failed for loglik, aic and bic
     # loglik: GLM used another value for the mse or another formula
     # aic, bic: GLM used k=4, when LinearRegression used k=3.

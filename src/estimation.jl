@@ -52,6 +52,15 @@ function eval_mst(sst::T, dof_total::Int) where T
     return  sst/dof_total
 end
 
+function eval_std_error(mse::T, X::Matrix{T}, num_obs::Int, dof_reg::Int) where T
+    C = (X'*X)^-1
+    std_error = Vector{T}(undef, dof_reg+1)
+    for j in 1:(dof_reg+1)
+        std_error[j] = sqrt(mse*C[j,j]) #/num_obs
+    end
+    return std_error
+end
+
 function eval_loglik(mse::T, num_obs::Int, resid::Vector{T}) where T
     return -num_obs/2 * log(2*pi) - num_obs/2 * log(mse) - ((resid)'*(resid))/(2*mse)
 end
@@ -87,6 +96,7 @@ function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
     mse = eval_mse(sse, dof_total, dof_reg)
     msr = eval_msr(ssr, dof_reg)
     mst = eval_mst(sst, dof_total)
+    std_error = eval_std_error(mse, X, num_obs, dof_reg)
     llk = eval_loglik(mse, num_obs, residuals)
     aic = eval_aic(dof_reg, llk)
     bic = eval_bic(num_obs, dof_reg, llk)
@@ -103,4 +113,5 @@ function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
                 dof_total, rmse, llk, aic, bic, r2, r2_adj, residuals,
                 mse, msr, mst, sse, ssr, sst, t_value, t_test_p_value, 
                 f_value, f_test_p_value, se_beta)
+
 end

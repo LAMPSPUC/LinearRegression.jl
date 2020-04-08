@@ -13,7 +13,7 @@ end
 function eval_t_test_p_value(num_obs::Int, dof_reg::Int, t_value::Vector{T}) where T
     t_test_p_value = Vector{T}(undef, 0)
     for j in 1:(dof_reg+1)
-        p_value = (1 - cdf(TDist(num_obs-dof_reg-1), t_value[j])) * 2
+        p_value = (1 - cdf(TDist(num_obs-dof_reg-1), abs(t_value[j]))) * 2
         push!(t_test_p_value, p_value)
     end
     return t_test_p_value
