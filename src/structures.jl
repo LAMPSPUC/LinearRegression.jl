@@ -19,6 +19,7 @@ mutable struct Model{T <: Real}
     sse::T
     ssr::T
     sst::T
+    std_error::Vector{T}
     t_value::Vector{T}
     t_test_p_value::Vector{T}
     f_value::T
