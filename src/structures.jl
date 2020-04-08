@@ -24,5 +24,4 @@ mutable struct Model{T <: Real}
     t_test_p_value::Vector{T}
     f_value::T
     f_test_p_value::T
-    se_beta::Vector{T}
 end

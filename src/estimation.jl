@@ -107,11 +107,9 @@ function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
     f_value = eval_f_value(msr, mse)
     f_test_p_value = eval_f_test_p_value(f_value, dof_reg, num_obs)
 
-    se_beta = eval_se_beta(X, mse, dof_reg)
-
     return Model(y, X, beta_hat, num_obs, dof_reg, dof_resid, 
                 dof_total, rmse, llk, aic, bic, r2, r2_adj, residuals,
-                mse, msr, mst, sse, ssr, sst, t_value, t_test_p_value, 
-                f_value, f_test_p_value, se_beta)
+                mse, msr, mst, sse, ssr, sst, std_error, t_value, t_test_p_value, 
+                f_value, f_test_p_value)
 
 end

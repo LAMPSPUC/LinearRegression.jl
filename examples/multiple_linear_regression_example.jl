@@ -26,9 +26,3 @@ y = df[!, 1]
 # Estimate a multiple linear regression model
 
 reg = linreg(y, X)
-
-
-
-
-
-
