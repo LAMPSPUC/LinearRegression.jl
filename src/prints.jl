@@ -1,5 +1,5 @@
 function Base.show(io::IO, regression::Model)
-    println("--------------------------------------------------------")
+    println("------------------------------------------------------------")
     println("Linear Regression:")
     println("Number of observations:        ", Int(regression.num_obs))
     println("Number of regressor variables: ", Int(regression.dof_reg))
@@ -19,8 +19,8 @@ function Base.show(io::IO, regression::Model)
 end
 
 function print_table(regression::Model)
-    println("--------------------------------------------------------")
-    println("Parameter    Estimate    Standard Error    t stat    p-value")
+    println("------------------------------------------------------------")
+    println("Parameter    Estimate    t stat    p-value    Standard Error")
 
     num_param = regression.dof_reg + 1
     parameter = "Intercept"
@@ -39,9 +39,9 @@ function print_table_row(parameter::String, estimate::T, tstat::T, pvalue::T, st
     std_error = @sprintf("%.4f", std_error)
     spc = Vector{String}(undef, 4)
     spc[1] = " " ^ (15- length(parameter))
-    spc[2] = " " ^ (15- length(std_error))
-    spc[3] = " " ^ (12- length(estimate))
-    spc[4] = " " ^ (12- length(tstat))
-    tableRow = parameter * spc[1] * estimate * spc[2] * std_error * spc[3] * tstat * spc[4] * pvalue
+    spc[2] = " " ^ (10- length(estimate))
+    spc[3] = " " ^ (10- length(tstat))
+    spc[4] = " " ^ (11- length(std_error))
+    tableRow = parameter * spc[1] * estimate * spc[2] * tstat * spc[3] * pvalue * spc[4] * std_error
     println(tableRow)
 end

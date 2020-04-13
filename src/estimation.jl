@@ -111,5 +111,4 @@ function linreg(y::Vector{T}, X::Matrix{T}) where T <: Real
                 dof_total, rmse, llk, aic, bic, r2, r2_adj, residuals,
                 mse, msr, mst, sse, ssr, sst, std_error, t_value, t_test_p_value, 
                 f_value, f_test_p_value)
-
 end
