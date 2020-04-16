@@ -1,5 +1,7 @@
 # LinearRegression.jl Documentation
 
+Simple linear regression package.
+
 ## Installation
 
 This package is registered so you can `Pkg.add` it as follows:
@@ -7,4 +9,3 @@ This package is registered so you can `Pkg.add` it as follows:
 pkg> add https://github.com/LAMPSPUC/LinearRegression.jl.git
 ```
 
-## Contributing
